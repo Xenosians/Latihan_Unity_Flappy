@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeMonkey.Utils;
 
 public static class SoundManager {
     
@@ -26,5 +27,10 @@ public static class SoundManager {
         Debug.LogError("Sound " + sound + " not found! ");
         return null;
 
+    }
+
+    public static void AddButtonSounds(this Button_UI buttonUI){
+        buttonUI.MouseOverOnceFunc += () => Playsound(Sound.ButtonOver);
+        buttonUI.ClickFunc += () => Playsound(Sound.ButtonClick);
     }
 }

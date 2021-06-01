@@ -550,6 +550,17 @@ MonoBehaviour:
   pipeHeadSprite: {fileID: 21300000, guid: 165625e1f34d18e419d1c11d5ac1e5c6, type: 3}
   pfPipeHead: {fileID: 2538459140622345962, guid: c3528aa3e74bf3a4f997da3fa13c8c3b, type: 3}
   pfPipeBody: {fileID: 1813493964633639849, guid: 6efc8b80c50d73244b7b4a0e904eb9d5, type: 3}
+  soundAudioClipArray:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: 98180c6e462e607418d56d13fd9ec3ca, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: 60b8fee85b42f51488f4b61d7f67d914, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: c83e7e5393d1659448e80560191bf90c, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 7ee51524b4e36554f92f522a6bd265e0, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: c53c3cd5e519d7741a15bed2f1e9ef6b, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

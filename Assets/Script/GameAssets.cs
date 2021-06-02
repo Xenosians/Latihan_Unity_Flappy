@@ -18,6 +18,10 @@ public class GameAssets: MonoBehaviour
     public Sprite pipeHeadSprite;
     public Transform pfPipeHead;
     public Transform pfPipeBody;
+    public Transform pfGround;
+    public Transform pfCloud_1;
+    public Transform pfCloud_2;
+    public Transform pfCloud_3;
 
     public SoundAudioClip[] soundAudioClipArray;
 

@@ -12,6 +12,10 @@ public class Level : MonoBehaviour
     private const float PIPE_MOVE_SPEED = 30f;
     private const float PIPE_DESTROY_X_POSITION = -100f;
     private const float PIPE_SPAWN_X_POSITION = +100f;
+    private const float GROUND_DESTROY_X_POSITION = -200f;
+    private const float CLOUD_DESTROY_X_POSITION = -160f;
+    private const float CLOUD_SPAWN_X_POSITION = +160f;
+    private const float CLOUD_SPAWN_Y_POSITION = +30f;
     private const float BIRD_X_POSITION = 0f;
 
     private static Level instance;
@@ -20,6 +24,9 @@ public class Level : MonoBehaviour
         return instance;
     }
 
+    private List<Transform> groundList;
+    private List<Transform> cloudList;
+    private float cloudSpawnTimer;
     private List<Pipe> pipeList;
     private int pipesPassedCount;
     private int pipeSpawned;
@@ -40,8 +47,11 @@ public class Level : MonoBehaviour
         Playing,
         BirdDead,
     }
+
     private void Awake(){
         instance = this;
+        SpawnInitialGround();
+        SpawnInitialClouds();
         pipeList = new List<Pipe>();
         pipeSpawnTimerMax = 1f;
         SetDifficulty(Difficulty.Easy);
@@ -59,7 +69,6 @@ public class Level : MonoBehaviour
     }
 
     private void Bird_OnDied(object sender,System.EventArgs e){
-        //CMDebug.TextPopupMouse("Dead!");
         state = State.BirdDead;
     }
 
@@ -67,6 +76,80 @@ public class Level : MonoBehaviour
         if (state == State.Playing){
             HandlePipeMovement();
             HandlePipeSpawning();
+            HandleGround();
+            HandleCloud();
+        }
+    }
+
+    private void SpawnInitialClouds(){
+        cloudList = new List<Transform>();
+        Transform cloudTransform;
+        cloudTransform = Instantiate(GetcloudPrefabTransform(), new Vector3(0,CLOUD_SPAWN_Y_POSITION, 0), Quaternion.identity);
+        cloudList.Add(cloudTransform);
+    }
+
+    private Transform GetcloudPrefabTransform(){
+        switch (Random.Range(0, 3)){
+        default:
+        case 0: return GameAssets.GetInstance().pfCloud_1;
+        case 1: return GameAssets.GetInstance().pfCloud_2;
+        case 2: return GameAssets.GetInstance().pfCloud_3;
+
+        }
+    }
+
+    private void HandleCloud()
+    {
+        cloudSpawnTimer -= Time.deltaTime;
+        if (cloudSpawnTimer < 0)
+        {
+            float cloudSpawnTimerMax = 5f;
+            cloudSpawnTimer = cloudSpawnTimerMax;
+            Transform cloudTransform = Instantiate(GetcloudPrefabTransform(), new Vector3(CLOUD_SPAWN_X_POSITION, CLOUD_SPAWN_Y_POSITION, 0), Quaternion.identity);
+            cloudList.Add(cloudTransform);
+        }
+        for(int i = 0; i < cloudList.Count; i++){ 
+            Transform cloudTransform = cloudList[i];
+            cloudTransform.position += new Vector3(-1, 0, 0) * PIPE_MOVE_SPEED * Time.deltaTime * .7f;
+
+            if (cloudTransform.position.x < CLOUD_DESTROY_X_POSITION)
+            {
+                Destroy(cloudTransform.gameObject);
+                cloudList.RemoveAt(i);
+                i++;
+            }
+        }
+    }
+
+
+    private void SpawnInitialGround(){
+        groundList = new List<Transform>();
+        Transform groundTransform;
+        float groundY = -47.5f;
+        float groundWidth = 192f;
+        groundTransform = Instantiate(GameAssets.GetInstance().pfGround, new Vector3(0, groundY, 0), Quaternion.identity);
+        groundList.Add(groundTransform);
+        groundTransform = Instantiate(GameAssets.GetInstance().pfGround, new Vector3(groundWidth, groundY, 0), Quaternion.identity);
+        groundList.Add(groundTransform);
+        groundTransform = Instantiate(GameAssets.GetInstance().pfGround, new Vector3(groundWidth * 2f, groundY, 0), Quaternion.identity);
+        groundList.Add(groundTransform);
+    }
+
+    private void HandleGround(){
+        foreach(Transform groundTransform in groundList){
+            groundTransform.position += new Vector3(-1, 0, 0) * PIPE_MOVE_SPEED * Time.deltaTime;
+
+            if(groundTransform.position.x < GROUND_DESTROY_X_POSITION){
+                float rightMostXPosition = -100f;
+                for (int i = 0; i < groundList.Count; i++){
+                    if(groundList[i].position.x > rightMostXPosition){
+                        rightMostXPosition = groundList[i].position.x;
+                    }
+                }
+
+                float groundWidth = 192f;
+                groundTransform.position = new Vector3(rightMostXPosition + groundWidth, groundTransform.position.y, groundTransform.position.z);
+            }
         }
     }
 
@@ -107,19 +190,19 @@ public class Level : MonoBehaviour
        switch (difficulty){
        case Difficulty.Easy:
             gapSize = 50f;
-            pipeSpawnTimerMax = 1.2f;
+            pipeSpawnTimerMax = 1.4f;
             break;
        case Difficulty.Medium:
             gapSize = 40f;
-            pipeSpawnTimerMax = 1.1f;
+            pipeSpawnTimerMax = 1.3f;
             break;
        case Difficulty.Hard:
             gapSize = 33f;
-            pipeSpawnTimerMax = 1.0f;
+            pipeSpawnTimerMax = 1.1f;
             break;
        case Difficulty.Impossible:
             gapSize = 20f;
-            pipeSpawnTimerMax = .8f;
+            pipeSpawnTimerMax = 1.0f;
             break;
        }
     }

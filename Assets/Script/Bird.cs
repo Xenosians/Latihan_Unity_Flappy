@@ -6,7 +6,7 @@ using CodeMonkey;
 
 public class Bird : MonoBehaviour{
 
-    private const float JUMP_AMOUNT = 100f;
+    private const float JUMP_AMOUNT = 80f;
 
     public static Bird instance;
 
@@ -49,6 +49,8 @@ public class Bird : MonoBehaviour{
              if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
                    Jump();
              }
+
+             transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
              break;
         case State.Dead:
              break;

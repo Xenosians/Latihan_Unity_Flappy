@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Score {
 
     public static void Start(){
-        ResetHighscore();
+        //ResetHighscore();
         Bird.GetInstance().OnDied += Bird_OnDied;
     }
 

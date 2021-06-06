@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,8 @@ public class Level : MonoBehaviour
     private float pipeSpawnTimerMax;
     private float gapSize;
     private State state;
+    public DateTime dateTime;
+    public DateTime dateTimeEnd;
 
     public enum Difficulty{
         Easy,
@@ -66,10 +69,16 @@ public class Level : MonoBehaviour
 
     private void Bird_OnStartedPlaying(object sender,System.EventArgs e){
         state = State.Playing;
+        dateTime = DateTime.Now;
     }
 
     private void Bird_OnDied(object sender,System.EventArgs e){
         state = State.BirdDead;
+        dateTimeEnd = DateTime.Now;
+    }
+
+    public System.TimeSpan GetTime() {
+        return dateTimeEnd - dateTime;
     }
 
     private void Update(){
@@ -89,7 +98,7 @@ public class Level : MonoBehaviour
     }
 
     private Transform GetcloudPrefabTransform(){
-        switch (Random.Range(0, 3)){
+        switch (UnityEngine.Random.Range(0, 3)){
         default:
         case 0: return GameAssets.GetInstance().pfCloud_1;
         case 1: return GameAssets.GetInstance().pfCloud_2;
@@ -163,7 +172,7 @@ public class Level : MonoBehaviour
             float totalHeight = CAMERA_ORTHO_SIZE * 2f;
             float maxHeight = totalHeight - gapSize * .5f - heightEdgeLimit;
 
-            float height = Random.Range(minHeight, maxHeight);
+            float height = UnityEngine.Random.Range(minHeight, maxHeight);
             CreateGapPipes(height, gapSize, PIPE_SPAWN_X_POSITION);
         }
     }

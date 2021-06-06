@@ -43,16 +43,19 @@ public class Bird : MonoBehaviour{
                    birdRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
                    Jump();
                    if (OnStartedPlaying != null) OnStartedPlaying(this, EventArgs.Empty);
-             }
+                    
+                }
              break;
         case State.Playing:
              if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
                    Jump();
+                   PlayerLog.tapCount += 1;
              }
 
-             transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
+                transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
              break;
         case State.Dead:
+                Console.WriteLine(PlayerLog.tapCount);
              break;
 
         }

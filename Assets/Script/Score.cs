@@ -24,6 +24,7 @@ public static class Score {
         if (score > currentHighscore){
             PlayerPrefs.SetInt("highscore", score);
             PlayerPrefs.Save();
+            // Ganti Menggunakan GDC.Utils
             return true;
         } else {
             return false;
@@ -33,5 +34,8 @@ public static class Score {
     public static void ResetHighscore(){
         PlayerPrefs.SetInt("highscore", 0);
         PlayerPrefs.Save();
+        // PlayerPrefs Ganti menggunakan GDC.Utils
     }
+
 }
+

@@ -15,6 +15,7 @@ public class PlayerLog : MonoBehaviour
     {
         return instance;
     }
+
     private void Awake(){
         instance = this;
     }

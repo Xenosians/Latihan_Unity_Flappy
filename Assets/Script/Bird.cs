@@ -55,7 +55,6 @@ public class Bird : MonoBehaviour{
                 transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
              break;
         case State.Dead:
-                Console.WriteLine(PlayerLog.tapCount);
              break;
 
         }

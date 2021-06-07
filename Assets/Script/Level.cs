@@ -77,7 +77,7 @@ public class Level : MonoBehaviour
         dateTimeEnd = DateTime.Now;
     }
 
-    public System.TimeSpan GetTime() {
+    public TimeSpan GetTime() {
         return dateTimeEnd - dateTime;
     }
 

@@ -22,7 +22,13 @@ public class GameOverWindow: MonoBehaviour{
     
     private void Start(){
         Bird.GetInstance().OnDied += Bird_OnDied;
+
         Hide();
+    }
+
+    private void OnDestroy()
+    {
+        Bird.GetInstance().OnDied -= Bird_OnDied;
     }
 
     private void Update(){
@@ -40,6 +46,8 @@ public class GameOverWindow: MonoBehaviour{
             highscoreText.text = "HIGHSCORE: " + Score.GetHighscore();
         }
         Show();
+
+        
     }
 
     private void Hide(){

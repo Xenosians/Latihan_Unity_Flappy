@@ -75,6 +75,9 @@ public class Level : MonoBehaviour
     private void Bird_OnDied(object sender,System.EventArgs e){
         state = State.BirdDead;
         dateTimeEnd = DateTime.Now;
+
+        GameHandler.GetInstance().SetTime(GetTime());
+        GameHandler.GetInstance().SaveLog();
     }
 
     public TimeSpan GetTime() {
@@ -183,6 +186,7 @@ public class Level : MonoBehaviour
             pipe.Move();
             if(isToTherightOfBird && pipe.GetXPosition() <= BIRD_X_POSITION && pipe.IsBottom()){
                 pipesPassedCount++;
+                GameHandler.GetInstance().IncreaseScore();
                 SoundManager.Playsound(SoundManager.Sound.Score);
             }
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GDC.Innovation.Utility;
 
 
 public class SaveScript
@@ -15,18 +14,9 @@ public class SaveScript
 
 public class Main : MonoBehaviour
 {   
-    private System.TimeSpan GetTime(){
-        return Level.GetInstance().GetTime();
-    }
-    private int GetTapCountSave(){
-        return PlayerLog.GetTapCount();
-    }
 
-    private int GetHighscore(){
-        return Score.GetHighscore();
-    }
     private void Start(){
-  
+  /*
         SaveScript save = new SaveScript();
         string Ss1 = GDCUtils.ConvertObjectToJsonString<SaveScript>(save);
         save.thisIsFloat = GetTapCountSave();
@@ -40,6 +30,7 @@ public class Main : MonoBehaviour
         GDCUtils.SaveFileToLocation(Ss1, "C:/SERBASERBILAB/LAB_RPLGDC/SaveState/Save.json");
         GDCUtils.SaveFileToLocation(Ss2, "C:/SERBASERBILAB/LAB_RPLGDC/SaveState/Save2.json");
         GDCUtils.SaveFileToLocation(Ss3, "C:/SERBASERBILAB/LAB_RPLGDC/SaveState/Save3.json");
+  */
     }
 
 }

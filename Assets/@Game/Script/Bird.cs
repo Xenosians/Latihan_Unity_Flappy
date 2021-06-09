@@ -8,14 +8,16 @@ public class Bird : MonoBehaviour{
 
     private const float JUMP_AMOUNT = 80f;
 
-    public static Bird instance;
+    private static Bird instance;
 
     public static Bird GetInstance(){
         return instance;
     }
 
+    #region Event
     public event EventHandler OnDied;
     public event EventHandler OnStartedPlaying;
+    #endregion
 
     private Rigidbody2D birdRigidbody2D;
     private State state;
@@ -36,30 +38,43 @@ public class Bird : MonoBehaviour{
 
     private void Update(){
         switch (state){
-        default:
-        case State.WaitingToStart:
-             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-                   state = State.Playing;
-                   birdRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-                   Jump();
-                   if (OnStartedPlaying != null) OnStartedPlaying(this, EventArgs.Empty);
-                    
-                }
-             break;
-        case State.Playing:
-             if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-                   Jump();
-                   PlayerLog.tapCount += 1;
-             }
+            case State.WaitingToStart:
+                    OnWaitingGame();
+                 break;
+            case State.Playing:
+                    OnPlayingGame();
+                 break;
+            default:
+                break;
+        }
+    }
 
-                transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
-             break;
-        case State.Dead:
-             break;
+
+    #region InputGameEvent
+    private void OnWaitingGame() 
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+
+            state = State.Playing;
+            birdRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+            Jump();
+            if (OnStartedPlaying != null) OnStartedPlaying(this, EventArgs.Empty);
 
         }
-        
     }
+
+    private void OnPlayingGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+            Jump();
+            GameHandler.GetInstance().IncreaseTapCount();
+        }
+
+        transform.eulerAngles = new Vector3(0, 0, birdRigidbody2D.velocity.y * .15f);
+    }
+    #endregion
 
     private void Jump(){
         birdRigidbody2D.velocity = Vector2.up * JUMP_AMOUNT;
